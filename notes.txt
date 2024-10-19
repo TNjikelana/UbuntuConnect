@@ -1,0 +1,3 @@
+- need to isntall flask
+- run virtual env
+- activate (source venv/bin/activate.fish[fish for local-ignore])
