@@ -14,7 +14,7 @@ organizations = {
 
 @app.route('/')
 def hello_world():
-    return render_template('index.html')
+    return render_template('structure.html')
 
 
 # Route to render the donation form
