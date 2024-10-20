@@ -3,44 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Currency Conversion Donation</title>
+    <title>Donation Currency Converter</title>
     <script>
-        // Function to fetch the exchange rate from the selected 'fromCurrency' to 'toCurrency' using USD as an intermediate
-        async function fetchExchangeRate(fromCurrency, toCurrency, apiKey) {
-            try {
-                // Fetch rates from and to USD for both the selected currencies
-                const url = `https://openexchangerates.org/api/latest.json?app_id=${apiKey}&symbols=${fromCurrency},${toCurrency}`;
-                const response = await fetch(url);
-                const data = await response.json();
+        // Dictionary of organizations and their currencies (from the Flask backend)
+        const organizationCurrencies = {{ organizations | tojson }};
 
-                // Calculate the rate from 'fromCurrency' to USD (if fromCurrency is not USD)
-                let fromRate = (fromCurrency === 'USD') ? 1 : 1 / data.rates[fromCurrency];
+        // Auto-fill the organization's currency based on the selected organization
+        function updateOrganizationCurrency() {
+            const organization = document.getElementById('organization').value;
+            const orgCurrency = organizationCurrencies[organization];
 
-                // Calculate the rate from USD to 'toCurrency'
-                let toRate = data.rates[toCurrency];
-
-                // Effective rate from 'fromCurrency' to 'toCurrency'
-                return fromRate * toRate;
-            } catch (error) {
-                console.error('Error fetching exchange rate:', error);
-                document.getElementById('convertedAmount').innerText = 'Error fetching exchange rate.';
-                return null;
-            }
+            // Update the displayed text to include the organization's name and currency
+            document.getElementById('orgCurrency').innerText = orgCurrency;
+            document.getElementById('orgCurrencyText').innerText = `${organization} uses:`;
         }
 
         // Function to handle the conversion process when the user clicks the convert button
         async function convertCurrency() {
-            const apiKey = 'd9b9fe7f6f5042c7b67dc542fa7097b9';  // Place your OpenExchangeRates API key here
             const amount = document.getElementById('donationAmount').value;
             const fromCurrency = document.getElementById('fromCurrency').value;
-            const toCurrency = document.getElementById('toCurrency').value;
+            const organization = document.getElementById('organization').value;
 
-            if (amount && fromCurrency && toCurrency) {
-                const exchangeRate = await fetchExchangeRate(fromCurrency, toCurrency, apiKey);
-                if (exchangeRate) {
-                    const convertedAmount = (amount * exchangeRate).toFixed(2);
-                    document.getElementById('convertedAmount').innerText = `This will be equivalent to ${convertedAmount} ${toCurrency}.`;
+            if (amount && fromCurrency && organization) {
+                try {
+                    // Send the data to the Flask route for conversion
+                    const response = await fetch('/convert', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: new URLSearchParams({
+                            'fromCurrency': fromCurrency,
+                            'organization': organization,
+                            'amount': amount
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.convertedAmount) {
+                        document.getElementById('convertedAmount').innerText = `Your donation of ${amount} ${fromCurrency} will be equivalent to ${data.convertedAmount} ${data.toCurrency} for ${data.organization}.`;
+                    } else if (data.error) {
+                        document.getElementById('convertedAmount').innerText = 'Error fetching exchange rate.';
+                    }
+                } catch (error) {
+                    document.getElementById('convertedAmount').innerText = 'Error processing request.';
                 }
+            } else {
+                document.getElementById('convertedAmount').innerText = 'Please fill in all fields.';
             }
         }
     </script>
@@ -48,10 +58,26 @@
 <body>
     <h1>Donation Currency Converter</h1>
     <form>
+        <!-- Organization Dropdown -->
+        <label for="organization">Choose an organization to donate to:</label>
+        <select id="organization" onchange="updateOrganizationCurrency()">
+            <option value="RedCross">Red Cross</option>
+            <option value="UNICEF">UNICEF</option>
+            <option value="SPCA">SPCA</option>
+        </select>
+        <br><br>
+
+        <!-- Organization's Currency Display -->
+        <p id="orgCurrencyText">This organization uses:</p>
+        <p><span id="orgCurrency">EUR</span></p>
+        <br>
+
+        <!-- Donation Amount -->
         <label for="donationAmount">Enter donation amount:</label>
         <input type="number" id="donationAmount" placeholder="Enter amount" required>
         <br><br>
 
+        <!-- From Currency -->
         <label for="fromCurrency">Currency you are donating from:</label>
         <select id="fromCurrency">
             <option value="USD">USD - US Dollar</option>
@@ -61,24 +87,12 @@
         </select>
         <br><br>
 
-        <label for="toCurrency">Currency you are donating to:</label>
-        <select id="toCurrency">
-            <option value="EUR">EUR - Euro</option>
-            <option value="USD">USD - US Dollar</option>
-            <option value="GBP">GBP - British Pound</option>
-            <option value="ZAR">ZAR - South African Rand</option>
-        </select>
-        <br><br>
-
+        <!-- Convert Button -->
         <button type="button" onclick="convertCurrency()">Convert Currency</button>
         <br><br>
 
+        <!-- Converted Amount Output -->
         <p id="convertedAmount">This will be equivalent to 0 in the selected currency.</p>
-        
-        
-    
-    
-    
     </form>
 </body>
 </html>
