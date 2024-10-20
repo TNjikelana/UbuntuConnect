@@ -3,9 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing Page </title>
+    <title>Global Donation Platform</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./static/css/home.css">
 </head>
 <body>
-    <h1>Hello, World!</h1>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-indigo">
+            <div class="container">
+                <img src="./static/imgs/" alt="Logo" class="logo" id="logo">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="#news">Latest News</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" id="login-link">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" id="register-link">Register</a></li>
+                    <li class="nav-item" style="display:none;"><a class="nav-link" href="#profile" id="profile-link">Profile</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Slideshow Section -->
+    <section id="slideshow" class="mb-4">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="./static/imgs/1.png" alt="Cause 1" class="d-block w-100 img-fluid" style="max-height: 90vh;">
+                    <button class="btn btn-primary view-more" onclick="showDetails('Cause 1', 'Description about Cause 1.')">View More</button>
+                </div>
+                <div class="carousel-item">
+                    <img src="" alt="Cause 2" class="d-block w-100 img-fluid" style="max-height: 90vh;">
+                    <button class="btn btn-primary view-more" onclick="showDetails('Cause 2', 'Description about Cause 2.')">View More</button>
+                </div>
+                <div class="carousel-item">
+                    <img src="./static/imgs/2.png" alt="Cause 3" class="d-block w-100 img-fluid" style="max-height: 90vh;">
+                    <button class="btn btn-primary view-more" onclick="showDetails('Cause 3', 'Description about Cause 3.')">View More</button>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span aria-hidden="true">&#10094;</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span aria-hidden="true">&#10095;</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Trending NGOs Section -->
+    <section id="trending-ngos" class="mb-4">
+        <h2>Trending NGOs to Donate To</h2>
+        <div class="container">
+            <div class='row'>
+                <!-- Example NGO Cards -->
+                <div class='col-md-4 mb-3'>
+                    <div class='card fade-in'>
+                        <h3>REDCROSS</h3>
+                        <img src="./static/imgs/download (1).png" alt="" style='width:50px; position:absolute; top:10px; right:10px;'>
+                        <p>Description about NGO 1 and its impact.</p>
+                        <button onclick='window.location.href="/donate"' class='btn btn-success'>Donate Now</button>
+                        <span class='close'>&times;</span>
+                    </div>
+                </div>
+
+                <div class='col-md-4 mb-3'>
+                    <div class='card fade-in'>
+                        <h3>UNICEF</h3>
+                        <img src="./static/imgs/download.png" alt="" style='width:50px; position:absolute; top:10px; right:10px;'>
+                        <p>Description about NGO 2 and its impact.</p>
+                        <button onclick='window.location.href="/donate"' class='btn btn-success'>Donate Now</button>
+                        <span class='close'>&times;</span>
+                    </div>
+                </div>
+
+                <div class='col-md-4 mb-3'>
+                    <div class='card fade-in'>
+                        <h3>SPCA</h3>
+                        <img src="./static/imgs/download (2).jfif" alt="" style='width:50px; position:absolute; top:10px; right:10px;'>
+                        <p>Description about NGO 3 and its impact.</p>
+                        <button onclick='window.location.href="/donate"' class='btn btn-success'>Donate Now</button>
+                        <span class='close'>&times;</span>
+                    </div>
+                </div>
+
+            </div> <!-- End Row -->
+        </div> <!-- End Container -->
+    </section>
+
+    <!-- Latest News Section -->
+    <section id='news'>
+        <h2>Latest News</h2>
+
+        <!-- Example News Items -->
+        <div class='container'>
+            <div class='row'>
+                <!-- News Cards -->
+                <div class='col-md-4 mb-3'>
+                    <div class='card fade-in'>
+                        <h3>News Title 1</h3>
+                        <p>Summary of news item 1. It covers the latest updates on various causes.</p>
+                        <button onclick='showNewsDetails("News Title 1", "Ramaphosa donated $500,000 to REDCROSS for disaster relief efforts.")' 
+                                class='btn btn-info'>View More</button>
+                    </div>
+                </div>
+
+                <div class='col-md-4 mb-3'>
+                    <div class='card fade-in'>
+                        <h3>News Title 2</h3>
+                        <p>Summary of news item 2. It discusses new initiatives in the community.</p>
+                        <button onclick='showNewsDetails("News Title 2", "UNICEF launched a campaign to support education in rural areas.")' 
+                                class='btn btn-info'>View More</button>
+                    </div>
+                </div>
+
+                <div class='col-md-4 mb-3'>
+                    <div class='card fade-in'>
+                        <h3>News Title 3</h3>
+                        <p>Summary of news item 3. It highlights recent achievements in fundraising.</p>
+                        <button onclick='showNewsDetails("News Title 3", "SPCA raised $200,000 for animal rescue operations.")' 
+                                class='btn btn-info'>View More</button>
+                    </div>
+                </div>
+
+            </div> <!-- End Row -->
+        </div> <!-- End Container -->
+
+    </section>
+
+   <!-- Footer -->
+   <footer>&copy; 2024 Global Donation Platform</footer>
+
+   <script src="./static/js/home.js"></script>
+
 </body>
 </html>
