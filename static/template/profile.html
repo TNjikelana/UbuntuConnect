@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Character encoding for the document -->
+    <meta charset="UTF-8">
+    <!-- Responsive design settings for different devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title of the webpage -->
+    <title>NPO Profile Management</title>
+    <!-- Link to external CSS stylesheet for styling the profile page -->
+    <link rel="stylesheet" href="../css/profile.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Main heading for the page -->
+        <h1>NPO Profile Management</h1>
+        <!-- Form for creating or updating the NPO profile -->
+        <form id="profileForm">
+            <!-- Input field for username (required) -->
+            <input type="text" id="username" placeholder="Username" required>
+            <!-- Input field for email address (required) -->
+            <input type="email" id="email" placeholder="Email" required>
+            <!-- Input field for phone number (optional) -->
+            <input type="tel" id="phone" placeholder="Phone Number">
+            <!-- Input field for password (required) -->
+            <input type="password" id="password" placeholder="Password" required>
+            <!-- Text area for brief description of the NPO -->
+            <textarea id="description" placeholder="Brief Description"></textarea>
+            <!-- Input field for uploading a profile image -->
+            <input type="file" id="profileImage">
+            <!-- Submit button for the form -->
+            <button type="submit">Create/Update Profile</button>
+        </form>
+
+        <!-- Section to display the created or updated profile -->
+        <div id="profileDisplay"></div>
+
+        <!-- Donation Section (currently commented out) -->
+        <!-- 
+        <h2>Donations</h2>
+        <form id="donationForm">
+            <!-- Input field for donation amount (required) -->
+            <input type="number" id="donationAmount" placeholder="Donation Amount ($)" required>
+            <!-- Submit button for the donation form -->
+            <button type="submit">Add Donation</button>
+        </form> 
+        -->
+    </div>
+
+    <!-- Link to external JavaScript file for handling profile-related functionality -->
+    <script src="../js/profile.js"></script>
+</body>
+</html>
