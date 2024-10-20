@@ -4,21 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donation Currency Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4B0082; /* Indigo color */
+        }
+
+        form {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 500px;
+            margin: auto;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        select, input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #4B0082; /* Indigo color */
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #6a1b9a; /* Darker shade of indigo */
+        }
+
+        p {
+            text-align: center;
+        }
+
+        /* Modal Styling */
+        #loginModal {
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0,0,0,0.7);
+        }
+        
+        #modalContent {
+            background-color: white; 
+            margin: auto; 
+            padding: 20px; 
+            width: 300px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+    </style>
     <script>
         // Dictionary of organizations and their currencies (from the Flask backend)
-        const organizationCurrencies = {{ organizations | tojson }};
+        const organizationCurrencies = {
+            "RedCross": "EUR",
+            "UNICEF": "USD",
+            "SPCA": "AUD"
+        };
 
-        // Auto-fill the organization's currency based on the selected organization
         function updateOrganizationCurrency() {
             const organization = document.getElementById('organization').value;
             const orgCurrency = organizationCurrencies[organization];
-
-            // Update the displayed text to include the organization's name and currency
             document.getElementById('orgCurrency').innerText = orgCurrency;
             document.getElementById('orgCurrencyText').innerText = `${organization} uses:`;
         }
 
-        // Function to handle the conversion process when the user clicks the convert button
         async function convertCurrency() {
             const amount = document.getElementById('donationAmount').value;
             const fromCurrency = document.getElementById('fromCurrency').value;
@@ -26,26 +101,12 @@
 
             if (amount && fromCurrency && organization) {
                 try {
-                    // Send the data to the Flask route for conversion
-                    const response = await fetch('/convert', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: new URLSearchParams({
-                            'fromCurrency': fromCurrency,
-                            'organization': organization,
-                            'amount': amount
-                        })
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (data.convertedAmount) {
-                        document.getElementById('convertedAmount').innerText = `Your donation of ${amount} ${fromCurrency} will be equivalent to ${data.convertedAmount} ${data.toCurrency} for ${data.organization}.`;
-                    } else if (data.error) {
-                        document.getElementById('convertedAmount').innerText = 'Error fetching exchange rate.';
-                    }
+                    // Simulate conversion logic (replace with actual API call)
+                    const conversionRate = 0.85; // Example rate
+                    const convertedAmount = (amount * conversionRate).toFixed(2);
+                    const toCurrency = organizationCurrencies[organization];
+
+                    document.getElementById('convertedAmount').innerText = `Your donation of ${amount} ${fromCurrency} will be equivalent to ${convertedAmount} ${toCurrency} for ${organization}.`;
                 } catch (error) {
                     document.getElementById('convertedAmount').innerText = 'Error processing request.';
                 }
@@ -53,6 +114,43 @@
                 document.getElementById('convertedAmount').innerText = 'Please fill in all fields.';
             }
         }
+
+        function openModal() {
+            document.getElementById('loginModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        function submitLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Placeholder for actual login logic
+            if (username && password) {
+                alert(`Logging in as ${username}...`); // Replace with actual authentication
+                closeModal();
+                // Optionally reset the form here
+                document.querySelector("form").reset();
+                document.getElementById("convertedAmount").innerText = "This will be equivalent to 0 in the selected currency.";
+                
+                // Reset organization currency display
+                updateOrganizationCurrency();
+                
+                // Reset login fields
+                document.getElementById("username").value = "";
+                document.getElementById("password").value = "";
+                
+                // Show success message
+                alert("You have successfully logged in!");
+                
+                // You can also redirect to another page or perform other actions here.
+                
+             } else {
+                alert("Please enter both username and password.");
+             }
+         }
     </script>
 </head>
 <body>
@@ -61,38 +159,53 @@
         <!-- Organization Dropdown -->
         <label for="organization">Choose an organization to donate to:</label>
         <select id="organization" onchange="updateOrganizationCurrency()">
-            <option value="RedCross">Red Cross</option>
-            <option value="UNICEF">UNICEF</option>
-            <option value="SPCA">SPCA</option>
-        </select>
-        <br><br>
+           <option value="RedCross">Red Cross</option>
+           <option value="UNICEF">UNICEF</option>
+           <option value="SPCA">SPCA</option>
+       </select>
 
-        <!-- Organization's Currency Display -->
-        <p id="orgCurrencyText">This organization uses:</p>
-        <p><span id="orgCurrency">EUR</span></p>
-        <br>
+       <!-- Organization's Currency Display -->
+       <p id="orgCurrencyText">This organization uses:</p>
+       <p><span id="orgCurrency">EUR</span></p>
 
-        <!-- Donation Amount -->
-        <label for="donationAmount">Enter donation amount:</label>
-        <input type="number" id="donationAmount" placeholder="Enter amount" required>
-        <br><br>
+       <!-- Donation Amount -->
+       <label for="donationAmount">Enter donation amount:</label>
+       <input type="number" id="donationAmount" placeholder="Enter amount" required>
 
-        <!-- From Currency -->
-        <label for="fromCurrency">Currency you are donating from:</label>
-        <select id="fromCurrency">
-            <option value="USD">USD - US Dollar</option>
-            <option value="EUR">EUR - Euro</option>
-            <option value="GBP">GBP - British Pound</option>
-            <option value="ZAR">ZAR - South African Rand</option>
-        </select>
-        <br><br>
+       <!-- From Currency -->
+       <label for="fromCurrency">Currency you are donating from:</label>
+       <select id="fromCurrency">
+           <option value="USD">USD - US Dollar</option>
+           <option value="EUR">EUR - Euro</option>
+           <option value="GBP">GBP - British Pound</option>
+           <option value="ZAR">ZAR - South African Rand</option>
+       </select>
 
-        <!-- Convert Button -->
-        <button type="button" onclick="convertCurrency()">Convert Currency</button>
-        <br><br>
+       <!-- Convert Button -->
+       <button type="button" onclick="convertCurrency()">Convert Currency</button>
 
-        <!-- Converted Amount Output -->
-        <p id="convertedAmount">This will be equivalent to 0 in the selected currency.</p>
-    </form>
+       <!-- Submit Button for Login/Registration -->
+       <button type="button" onclick="openModal()">Submit Donation</button>
+
+       <!-- Converted Amount Output -->
+       <p id="convertedAmount">This will be equivalent to 0 in the selected currency.</p>
+
+   </form>
+
+   <!-- Login Modal -->
+   <div id="loginModal">
+       <div id="modalContent">
+           <h2>Login</h2>
+           <label for="username">Username:</label>
+           <input type="text" id="username" required>
+           <br><br>
+           <label for="password">Password:</label>
+           <input type="password" id="password" required>
+           <br><br>
+           <button type="button" onclick="submitLogin()">Login</button>
+           <button type="button" onclick="closeModal()">Cancel</button>
+       </div>
+   </div>
+
 </body>
 </html>
