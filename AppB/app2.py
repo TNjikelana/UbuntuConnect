@@ -1,5 +1,5 @@
 from flask import Flask, render_template,request,jsonify
-import requests
+import requests, subprocess,json
 
 
 app = Flask(__name__)
@@ -58,6 +58,24 @@ def convert_currency():
 
     except Exception as e:
         return jsonify({'error': str(e)})
+    
+@app.route('/request_payment', methods=['POST'])
+def request_payment():
+    try:
+        # Get the donation amount from the request
+        donation_amount = request.json.get('donationAmount')
+        
+        if not donation_amount:
+            return jsonify({'error': 'No donation amount provided'}), 400
+        
+        result = subprocess.run(['node', 'request_payment.js', donation_amount], capture_output=True, text=True)
+        
+        # Parse the JSON output from the script (if any)
+        output = json.loads(result.stdout)
+        
+        return jsonify(output)  # Send the response back to the client
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

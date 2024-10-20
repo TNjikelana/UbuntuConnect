@@ -1,0 +1,31 @@
+import { createHttpClient } from '../client/requests';
+import { IncomingPayment, GrantRequest, GrantContinuationRequest, OutgoingPayment, OutgoingPaymentPaginationResult, WalletAddress, JWK, AccessToken, Quote, IncomingPaymentPaginationResult, PendingGrant, Grant, IncomingPaymentWithPaymentMethods, IlpPaymentMethod, PublicIncomingPayment, DIDDocument, OutgoingPaymentWithSpentAmounts } from '../types';
+import { ResponseValidator } from '@interledger/openapi';
+import { BaseDeps } from '../client';
+export declare const silentLogger: import("pino").Logger<{
+    level: string;
+}>;
+export declare const keyId = "default-key-id";
+export declare const getDefaultHttpClient: () => ReturnType<typeof createHttpClient>;
+export declare const mockOpenApiResponseValidators: () => {
+    successfulValidator: ResponseValidator<any>;
+    failedValidator: ResponseValidator<any>;
+};
+export declare const mockJwk: (overrides?: Partial<JWK>) => JWK;
+export declare const mockDIDDocument: (overrides?: Partial<DIDDocument>) => DIDDocument;
+export declare const mockWalletAddress: (overrides?: Partial<WalletAddress>) => WalletAddress;
+export declare const mockIncomingPayment: (overrides?: Partial<IncomingPayment>) => IncomingPayment;
+export declare const mockIncomingPaymentWithPaymentMethods: (overrides?: Partial<IncomingPaymentWithPaymentMethods>) => IncomingPaymentWithPaymentMethods;
+export declare const mockPublicIncomingPayment: (overrides?: Partial<PublicIncomingPayment>) => PublicIncomingPayment;
+export declare const mockIlpPaymentMethod: (overrides?: Partial<IlpPaymentMethod>) => IlpPaymentMethod;
+export declare const mockIncomingPaymentPaginationResult: (overrides?: Partial<IncomingPaymentPaginationResult>) => IncomingPaymentPaginationResult;
+export declare const mockOutgoingPayment: (overrides?: Partial<OutgoingPayment>) => OutgoingPayment;
+export declare const mockOutgoingPaymentWithSpentAmounts: (overrides?: Partial<OutgoingPaymentWithSpentAmounts>) => OutgoingPaymentWithSpentAmounts;
+export declare const mockOutgoingPaymentPaginationResult: (overrides?: Partial<OutgoingPaymentPaginationResult>) => OutgoingPaymentPaginationResult;
+export declare const mockPendingGrant: (overrides?: Partial<PendingGrant>) => PendingGrant;
+export declare const mockGrant: (overrides?: Partial<Grant>) => Grant;
+export declare const mockGrantRequest: (overrides?: Partial<GrantRequest>) => GrantRequest;
+export declare const mockContinuationRequest: (overrides?: Partial<GrantContinuationRequest>) => GrantContinuationRequest;
+export declare const mockAccessToken: (overrides?: Partial<AccessToken>) => AccessToken;
+export declare const mockQuote: (overrides?: Partial<Quote>) => Quote;
+export declare const createTestDeps: (overrides?: Partial<BaseDeps>) => Promise<BaseDeps>;
