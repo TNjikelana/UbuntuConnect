@@ -1,3 +1,6 @@
+# ignore misc folders
+app.py
+
 # Ignore config files
 config.py
 

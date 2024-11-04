@@ -83,8 +83,7 @@ def convert_currency():
 #     except Exception as e:
 #         return jsonify({'error': str(e)}), 500
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
     
 # ------------------------------------------------------
 # My wallet(will be donating from)
@@ -92,7 +91,6 @@ if __name__ == '__main__':
 
 wallet_address_url = "https://ilp.interledger-test.dev/donation"
 receiving_wallet_url = "https://ilp.interledger-test.dev/redcross" #hardcoded... check later
-
 
 
 def create_authenticated_client(wallet_address_url,private_key,key_id):
@@ -290,4 +288,7 @@ def start_payment(): #change to request_payment
         donation_amount
         )
 
-    
+    # complete app logig for wallet send here:
+
+    if __name__ == '__main__':
+        app.run(debug=True)
