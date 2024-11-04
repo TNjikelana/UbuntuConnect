@@ -1,10 +1,12 @@
 from flask import Flask, render_template,request,jsonify,url_for
 import requests, subprocess,json
-
+from config import API_KEY,private_key,key_id
 
 app = Flask(__name__)
 # Your OpenExchangeRates API Key
-API_KEY = 'd9b9fe7f6f5042c7b67dc542fa7097b9'
+API_KEY
+
+
 
 organizations = {
     'RedCross': 'EUR',
@@ -90,8 +92,6 @@ if __name__ == '__main__':
 
 wallet_address_url = "https://ilp.interledger-test.dev/donation"
 receiving_wallet_url = "https://ilp.interledger-test.dev/redcross" #hardcoded... check later
-private_key = "LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1DNENBUUF3QlFZREsyVndCQ0lFSUkzQ1FJcmJzbnFDUWYxM2ZlcTdRR1lzTDQ5TStrTGVUVk4xYVdMRldUU1YKLS0tLS1FTkQgUFJJVkFURSBLRVktLS0tLQ=="
-key_id = "3fbcf72b-0b49-4a41-a7dc-5b6509dbbdb3"
 
 
 
