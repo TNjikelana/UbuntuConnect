@@ -1,4 +1,4 @@
-# ignore misc folders
+# ignore .py files 
 app.py
 
 # Ignore config files
