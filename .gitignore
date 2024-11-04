@@ -1,0 +1,17 @@
+# Ignore config files
+config.py
+
+# Ignore other sensitive files
+.env
+secrets.txt
+
+# Common ignores for Python projects
+__pycache__/
+*.py[cod]
+*.log
+*.env
+*.sqlite3
+
+# Ignore IDE files (e.g., for VSCode or PyCharm)
+.vscode/
+.idea/
